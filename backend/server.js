@@ -9,6 +9,9 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
+import authRoutes from './routes/auth.js'
+app.use('/api/auth', authRoutes)
+
 app.get('/', (req, res) => {
   res.send('Sahara backend is running!')
 })
