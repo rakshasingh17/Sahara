@@ -1,12 +1,12 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
+
+dotenv.config({ path: '../.env' }) // 👈 move this here, before route imports
+
 import authRoutes from './routes/auth.js'
 import checklistRoutes from './routes/checklist.js'
 import llmRoutes from './routes/llm.js'
-
-
-dotenv.config()
 
 const app = express()
 
