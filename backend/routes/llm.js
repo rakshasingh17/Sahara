@@ -13,7 +13,7 @@ router.post('/chat', async (req, res) => {
         'Authorization': `Bearer ${process.env.GROQ_API_KEY}`
       },
       body: JSON.stringify({
-        model: 'llama3-8b-8192',
+        model: 'llama-3.3-70b-versatile',
         messages: [
           {
             role: 'system',
@@ -28,12 +28,14 @@ router.post('/chat', async (req, res) => {
     })
 
     const data = await response.json()
-    const reply = data.choices[0].message.content
+console.log('Groq response:', JSON.stringify(data))
+const reply = data.choices[0].message.content
 
     res.status(200).json({ reply })
   } catch (error) {
-    res.status(500).json({ message: 'Something went wrong' })
-  }
+  console.error('LLM Error:', error)
+  res.status(500).json({ message: 'Something went wrong', error: error.message })
+}
 })
 
 export default router
