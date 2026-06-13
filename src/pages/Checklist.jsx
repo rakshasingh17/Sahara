@@ -110,7 +110,7 @@ export default function Checklist() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '32px', flexWrap: 'wrap', gap: '16px' }}>
         <div>
-          <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: '2rem', color: '#3F3A34', marginBottom: '8px', fontWeight: '600' }}>
+          <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: '2rem', color: '#3F3A34', marginBottom: '8px', fontWeight: '500' }}>
             {category.title}
           </h1>
           <p style={{ fontFamily: "'DM Sans', sans-serif", color: '#5C554D', fontSize: '1rem' }}>

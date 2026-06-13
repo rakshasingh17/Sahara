@@ -39,10 +39,10 @@ export default function Dashboard() {
                 <div style={{ width: '44px', height: '44px', borderRadius: '12px', backgroundColor: '#F0F4F1', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
                   <IconComponent style={{ width: '22px', height: '22px', color: '#6E8B78' }} strokeWidth={2} />
                 </div>
-                <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.15rem', color: '#3F3A34', marginBottom: '6px', fontWeight: '550' }}>
+                <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: '1.4rem', color: '#3F3A34', marginBottom: '6px', fontWeight: '400' }}>
                   {category.title}
                 </h2>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", color: '#5C554D', lineHeight: '1.5', fontSize: '0.9rem', margin: 0 }}>
+                <p style={{ fontFamily: "'DM Sans', sans-serif", color: '#5C554D', lineHeight: '1.5', fontSize: '0.95rem', margin: 0 }}>
                   {category.description}
                 </p>
               </Link>
