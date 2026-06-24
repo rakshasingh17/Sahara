@@ -1,14 +1,15 @@
 import express from 'express'
+import auth from '../middleware/auth.js'
 
 const router = express.Router()
 
 // Get checklist progress for a category
-router.get('/:category', async (req, res) => {
+router.get('/:category', auth, async (req, res) => {
   try {
     const { category } = req.params
+    const userId = req.user.id // available from JWT now
 
-    // TODO: get user from token
-    // TODO: fetch progress from database
+    // TODO: fetch progress from database using userId + category
 
     res.status(200).json({ 
       category,
@@ -20,13 +21,13 @@ router.get('/:category', async (req, res) => {
 })
 
 // Save checklist progress
-router.post('/:category', async (req, res) => {
+router.post('/:category', auth, async (req, res) => {
   try {
     const { category } = req.params
     const { completedItems } = req.body
+    const userId = req.user.id // available from JWT now
 
-    // TODO: get user from token
-    // TODO: save progress to database
+    // TODO: save progress to database using userId + category
 
     res.status(200).json({ message: 'Progress saved' })
   } catch (error) {
