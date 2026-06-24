@@ -1,8 +1,9 @@
 import express from 'express'
+import auth from '../middleware/auth.js'
 
 const router = express.Router()
 
-router.post('/chat', async (req, res) => {
+router.post('/chat', auth, async (req, res) => {
   try {
     const { message, category } = req.body
 
