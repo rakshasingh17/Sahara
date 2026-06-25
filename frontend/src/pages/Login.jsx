@@ -6,7 +6,6 @@ import { Heart } from 'lucide-react'
 
 export default function Login() {
   const [isSignup, setIsSignup] = useState(false)
-  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -19,13 +18,12 @@ export default function Login() {
     setError('')
 
     const endpoint = isSignup ? '/api/auth/signup' : '/api/auth/login'
-    const body = isSignup ? { name, email, password } : { email, password }
 
     try {
       const res = await fetch(`http://localhost:5000${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
+        body: JSON.stringify({ email, password })
       })
 
       const data = await res.json()
@@ -93,16 +91,6 @@ export default function Login() {
         )}
 
         <div className="flex flex-col gap-4">
-          {isSignup && (
-            <input
-              type="text"
-              placeholder="Name"
-              value={name}
-              onChange={e => setName(e.target.value)}
-              required
-              style={inputStyle}
-            />
-          )}
           <input
             type="email"
             placeholder="Email"
