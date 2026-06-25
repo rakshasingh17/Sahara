@@ -54,6 +54,7 @@ export const categories = {
       { title: 'IRDAI — Insurance Claim Process', url: 'https://www.irdai.gov.in', description: 'How to file a life insurance claim with IRDAI guidelines.' },
       { title: 'Income Tax — Filing for Deceased', url: 'https://www.incometax.gov.in', description: 'How to file the final income tax return for a deceased person.' },
       { title: 'EPFO — PF Withdrawal After Death', url: 'https://www.epfindia.gov.in', description: 'Claim provident fund and pension benefits after a member\'s death.' },
+      { title: 'LegacyVault', url: '/legacyvault.html', description: 'Securely store and access important documents and digital assets.' },
     ],
   },
   'property-assets': {
