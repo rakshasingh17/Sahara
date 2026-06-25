@@ -7,6 +7,7 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Checklist from './pages/Checklist'
 import Assistant from './pages/Assistant'
+import LegacyVault from './pages/LegacyVault'
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/checklist/:category" element={<ProtectedRoute><Checklist /></ProtectedRoute>} />
           <Route path="/assistant/:category" element={<ProtectedRoute><Assistant /></ProtectedRoute>} />
+          <Route path="/legacy-vault" element={<ProtectedRoute><LegacyVault /></ProtectedRoute>} />
         </Routes>
       </Layout>
     </Router>
