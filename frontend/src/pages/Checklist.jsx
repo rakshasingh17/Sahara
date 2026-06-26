@@ -34,7 +34,7 @@ export default function Checklist() {
     const token = localStorage.getItem('token')
     if (!token) return
 
-    fetch(`http://localhost:5000/api/checklist/${slug}`, {
+    fetch(`https://sahara-x622.onrender.com/api/checklist/${slug}`, {
       headers: { 'Authorization': `Bearer ${token}` }
     })
       .then(res => res.json())
@@ -52,7 +52,7 @@ export default function Checklist() {
     const token = localStorage.getItem('token')
     if (!token) return
 
-    fetch(`http://localhost:5000/api/checklist/${slug}`, {
+    fetch(`https://sahara-x622.onrender.com/api/checklist/${slug}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

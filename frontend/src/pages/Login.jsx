@@ -20,7 +20,7 @@ export default function Login() {
     const endpoint = isSignup ? '/api/auth/signup' : '/api/auth/login'
 
     try {
-      const res = await fetch(`http://localhost:5000${endpoint}`, {
+      const res = await fetch(`https://sahara-x622.onrender.com${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
