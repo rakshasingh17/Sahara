@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, ArrowLeft, Check, Plus, Pencil, Trash2, ExternalLink } from 'lucide-react'
@@ -21,17 +21,46 @@ export default function Checklist() {
   const [newTitle, setNewTitle] = useState('')
   const [newDetail, setNewDetail] = useState('')
 
+  // Load saved progress from backend on mount
   useEffect(() => {
-    if (!category) navigate('/dashboard')
-    else {
-      setTasks(category.tasks)
-      setCompletedTasks(new Set())
-      setExpandedTasks(new Set())
-      setEditingTaskId(null)
-      setDeletingTaskId(null)
-      setIsAdding(false)
-    }
-  }, [category, navigate])
+    if (!category) { navigate('/dashboard'); return }
+
+    setTasks(category.tasks)
+    setExpandedTasks(new Set())
+    setEditingTaskId(null)
+    setDeletingTaskId(null)
+    setIsAdding(false)
+
+    const token = localStorage.getItem('token')
+    if (!token) return
+
+    fetch(`http://localhost:5000/api/checklist/${slug}`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.completedItems) {
+          setCompletedTasks(new Set(data.completedItems))
+        }
+      })
+      .catch(err => console.error('Failed to load progress:', err))
+
+  }, [category, navigate, slug])
+
+  // Save progress to backend whenever completedTasks changes
+  const saveProgress = useCallback((completed) => {
+    const token = localStorage.getItem('token')
+    if (!token) return
+
+    fetch(`http://localhost:5000/api/checklist/${slug}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ completedItems: [...completed] })
+    }).catch(err => console.error('Failed to save progress:', err))
+  }, [slug])
 
   if (!category) return null
 
@@ -41,6 +70,7 @@ export default function Checklist() {
     setCompletedTasks(prev => {
       const next = new Set(prev)
       next.has(taskId) ? next.delete(taskId) : next.add(taskId)
+      saveProgress(next)
       return next
     })
   }
@@ -69,7 +99,12 @@ export default function Checklist() {
   const confirmDelete = (taskId) => {
     if (deletingTaskId === taskId) {
       setTasks(prev => prev.filter(t => t.id !== taskId))
-      setCompletedTasks(prev => { const next = new Set(prev); next.delete(taskId); return next })
+      setCompletedTasks(prev => {
+        const next = new Set(prev)
+        next.delete(taskId)
+        saveProgress(next)
+        return next
+      })
       setExpandedTasks(prev => { const next = new Set(prev); next.delete(taskId); return next })
       setDeletingTaskId(null)
     } else {
