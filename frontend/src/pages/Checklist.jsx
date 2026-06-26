@@ -135,7 +135,7 @@ export default function Checklist() {
   }
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '32px 48px', width: '100%' }}>
+    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: 'clamp(16px, 4vw, 48px)', width: '100%' }}>
       {/* Back link */}
       <Link to="/dashboard" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: '#5C554D', textDecoration: 'none', marginBottom: '24px' }}>
         <ArrowLeft style={{ width: '16px', height: '16px' }} />
