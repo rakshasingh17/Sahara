@@ -6,6 +6,7 @@ import { Heart } from 'lucide-react'
 
 export default function Login() {
   const [isSignup, setIsSignup] = useState(false)
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -23,7 +24,7 @@ export default function Login() {
       const res = await fetch(`https://sahara-x622.onrender.com${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify(isSignup ? { name, email, password } : { email, password })
       })
 
       const data = await res.json()
@@ -91,6 +92,16 @@ export default function Login() {
         )}
 
         <div className="flex flex-col gap-4">
+          {isSignup && (
+            <input
+              type="text"
+              placeholder="Full Name"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              required
+              style={inputStyle}
+            />
+          )}
           <input
             type="email"
             placeholder="Email"
@@ -133,7 +144,7 @@ export default function Login() {
         <p className="text-sm text-center mt-6" style={{ fontFamily: "'DM Sans', sans-serif", color: '#5C554D' }}>
           {isSignup ? 'Already have an account?' : "Don't have an account?"}{' '}
           <button
-            onClick={() => setIsSignup(!isSignup)}
+            onClick={() => { setIsSignup(!isSignup); setError(''); setName('') }}
             style={{ color: '#6E8B78', fontWeight: '600', background: 'none', border: 'none', cursor: 'pointer' }}
           >
             {isSignup ? 'Log in' : 'Sign up'}
