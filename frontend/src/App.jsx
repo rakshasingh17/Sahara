@@ -11,10 +11,10 @@ import Checklist from './pages/Checklist'
 import Assistant from './pages/Assistant'
 import LegacyVault from './pages/LegacyVault'
 import Upgrade from './pages/Upgrade'
+import AccessVault from './pages/AccessVault'
 
 export default function App() {
   useEffect(() => {
-    // Wake up Render backend on app load
     fetch('https://sahara-x622.onrender.com/').catch(() => {})
   }, [])
 
@@ -25,6 +25,7 @@ export default function App() {
           {/* Public routes */}
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/access-vault" element={<AccessVault />} />
 
           {/* Protected routes — login required */}
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
