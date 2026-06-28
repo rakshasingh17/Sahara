@@ -1,5 +1,6 @@
 import express from 'express'
 import auth from '../middleware/auth.js'
+import Progress from '../models/Progress.js'
 
 const router = express.Router()
 
@@ -7,15 +8,16 @@ const router = express.Router()
 router.get('/:category', auth, async (req, res) => {
   try {
     const { category } = req.params
-    const userId = req.user.id // available from JWT now
+    const userId = req.user.id
 
-    // TODO: fetch progress from database using userId + category
+    const progress = await Progress.findOne({ userId, category })
 
-    res.status(200).json({ 
+    res.status(200).json({
       category,
-      completedItems: [] 
+      completedItems: progress ? progress.completedTasks : []
     })
   } catch (error) {
+    console.error('Get progress error:', error)
     res.status(500).json({ message: 'Something went wrong' })
   }
 })
@@ -25,12 +27,17 @@ router.post('/:category', auth, async (req, res) => {
   try {
     const { category } = req.params
     const { completedItems } = req.body
-    const userId = req.user.id // available from JWT now
+    const userId = req.user.id
 
-    // TODO: save progress to database using userId + category
+    await Progress.findOneAndUpdate(
+      { userId, category },
+      { completedTasks: completedItems },
+      { upsert: true, new: true }
+    )
 
     res.status(200).json({ message: 'Progress saved' })
   } catch (error) {
+    console.error('Save progress error:', error)
     res.status(500).json({ message: 'Something went wrong' })
   }
 })

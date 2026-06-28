@@ -40,7 +40,7 @@ export default function AssistantPanel({ category }) {
 
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch('http://localhost:5000/api/llm/chat', {
+      const res = await fetch('https://sahara-x622.onrender.com/api/llm/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

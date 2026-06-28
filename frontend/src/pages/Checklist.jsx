@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, ArrowLeft, Check, Plus, Pencil, Trash2, ExternalLink } from 'lucide-react'
@@ -21,17 +21,46 @@ export default function Checklist() {
   const [newTitle, setNewTitle] = useState('')
   const [newDetail, setNewDetail] = useState('')
 
+  // Load saved progress from backend on mount
   useEffect(() => {
-    if (!category) navigate('/dashboard')
-    else {
-      setTasks(category.tasks)
-      setCompletedTasks(new Set())
-      setExpandedTasks(new Set())
-      setEditingTaskId(null)
-      setDeletingTaskId(null)
-      setIsAdding(false)
-    }
-  }, [category, navigate])
+    if (!category) { navigate('/dashboard'); return }
+
+    setTasks(category.tasks)
+    setExpandedTasks(new Set())
+    setEditingTaskId(null)
+    setDeletingTaskId(null)
+    setIsAdding(false)
+
+    const token = localStorage.getItem('token')
+    if (!token) return
+
+    fetch(`https://sahara-x622.onrender.com/api/checklist/${slug}`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.completedItems) {
+          setCompletedTasks(new Set(data.completedItems))
+        }
+      })
+      .catch(err => console.error('Failed to load progress:', err))
+
+  }, [category, navigate, slug])
+
+  // Save progress to backend whenever completedTasks changes
+  const saveProgress = useCallback((completed) => {
+    const token = localStorage.getItem('token')
+    if (!token) return
+
+    fetch(`https://sahara-x622.onrender.com/api/checklist/${slug}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ completedItems: [...completed] })
+    }).catch(err => console.error('Failed to save progress:', err))
+  }, [slug])
 
   if (!category) return null
 
@@ -41,6 +70,7 @@ export default function Checklist() {
     setCompletedTasks(prev => {
       const next = new Set(prev)
       next.has(taskId) ? next.delete(taskId) : next.add(taskId)
+      saveProgress(next)
       return next
     })
   }
@@ -69,7 +99,12 @@ export default function Checklist() {
   const confirmDelete = (taskId) => {
     if (deletingTaskId === taskId) {
       setTasks(prev => prev.filter(t => t.id !== taskId))
-      setCompletedTasks(prev => { const next = new Set(prev); next.delete(taskId); return next })
+      setCompletedTasks(prev => {
+        const next = new Set(prev)
+        next.delete(taskId)
+        saveProgress(next)
+        return next
+      })
       setExpandedTasks(prev => { const next = new Set(prev); next.delete(taskId); return next })
       setDeletingTaskId(null)
     } else {
@@ -100,7 +135,7 @@ export default function Checklist() {
   }
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '32px 48px', width: '100%' }}>
+    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: 'clamp(16px, 4vw, 48px)', width: '100%' }}>
       {/* Back link */}
       <Link to="/dashboard" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: '#5C554D', textDecoration: 'none', marginBottom: '24px' }}>
         <ArrowLeft style={{ width: '16px', height: '16px' }} />
@@ -136,7 +171,7 @@ export default function Checklist() {
       </div>
 
       {/* Main layout */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: '32px', alignItems: 'start' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px', alignItems: 'start' }}>
         {/* Checklist + Resources */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <AnimatePresence mode="popLayout">
