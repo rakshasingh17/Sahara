@@ -1,4 +1,5 @@
 // src/App.jsx
+import { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import ProtectedRoute from './components/ProtectedRoute'
 import { Layout } from './components/Layout'
@@ -10,9 +11,13 @@ import Assistant from './pages/Assistant'
 import LegacyVault from './pages/LegacyVault'
 
 export default function App() {
+  useEffect(() => {
+    // Wake up Render backend on app load
+    fetch('https://sahara-x622.onrender.com/').catch(() => {})
+  }, [])
+
   return (
     <Router>
-      
       <Layout>
         <Routes>
           <Route path="/" element={<Landing />} />
