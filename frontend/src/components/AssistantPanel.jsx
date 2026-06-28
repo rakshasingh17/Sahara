@@ -1,3 +1,4 @@
+import ReactMarkdown from 'react-markdown'
 import { useEffect, useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Send, Bot, User, Sparkles } from 'lucide-react'
@@ -105,7 +106,7 @@ export default function AssistantPanel({ category }) {
               borderTopRightRadius: msg.role === 'user' ? '4px' : '16px',
               borderTopLeftRadius: msg.role === 'assistant' ? '4px' : '16px',
             }}>
-              {msg.content}
+              {msg.role === 'assistant' ? <ReactMarkdown>{msg.content}</ReactMarkdown> : msg.content}
             </div>
           </motion.div>
         ))}
