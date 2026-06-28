@@ -49,6 +49,34 @@ export default function Dashboard() {
             </motion.div>
           )
         })}
+
+        {/* LegacyVault — standalone tool card */}
+        <motion.div variants={item}>
+          <Link
+            to="/legacy-vault"
+            style={{ textDecoration: 'none', display: 'block', borderRadius: '20px', padding: '24px 28px', border: '1px solid #C8D5CA', boxShadow: '0 4px 20px -2px rgba(110,139,120,0.12)', background: 'linear-gradient(135deg, #F0F4F1 0%, #FAF6F0 100%)' }}
+          >
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px' }}>
+              <div style={{ flex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+                  <div style={{ width: '44px', height: '44px', borderRadius: '12px', backgroundColor: 'rgba(110,139,120,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Icons.Vault style={{ width: '22px', height: '22px', color: '#6E8B78' }} strokeWidth={2} />
+                  </div>
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: '700', color: '#6E8B78', textTransform: 'uppercase', letterSpacing: '0.08em', backgroundColor: 'rgba(110,139,120,0.1)', border: '1px solid rgba(110,139,120,0.2)', borderRadius: '20px', padding: '3px 10px' }}>
+                    Asset Tracker
+                  </span>
+                </div>
+                <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: '1.4rem', color: '#3F3A34', marginBottom: '6px', fontWeight: '400' }}>
+                  LegacyVault
+                </h2>
+                <p style={{ fontFamily: "'DM Sans', sans-serif", color: '#5C554D', lineHeight: '1.5', fontSize: '0.95rem', margin: 0 }}>
+                  Document all bank accounts, investments, insurance, and property in one place — so nothing is missed during settlement.
+                </p>
+              </div>
+              <Icons.ArrowRight style={{ width: '18px', height: '18px', color: '#6E8B78', flexShrink: 0, marginTop: '4px' }} strokeWidth={2} />
+            </div>
+          </Link>
+        </motion.div>
       </motion.div>
     </div>
   )

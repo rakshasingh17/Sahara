@@ -29,7 +29,26 @@ export function Layout({ children }) {
                 localStorage.removeItem('token')
                 window.location.href = '/'
               }}
-              className="text-sm font-medium text-charcoal-light hover:text-charcoal transition-colors px-3 py-2 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-sage"
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: '14px',
+                fontWeight: '500',
+                color: '#6E8B78',
+                backgroundColor: 'transparent',
+                border: '1px solid #6E8B78',
+                borderRadius: '10px',
+                padding: '3px 9px',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.backgroundColor = '#6E8B78'
+                e.currentTarget.style.color = 'white'
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.backgroundColor = 'transparent'
+                e.currentTarget.style.color = '#6E8B78'
+              }}
             >
               Sign out
             </button>
