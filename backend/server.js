@@ -7,6 +7,7 @@ import connectDB from './db.js'
 import authRoutes from './routes/auth.js'
 import checklistRoutes from './routes/checklist.js'
 import llmRoutes from './routes/llm.js'
+import otpRoutes from './routes/otp.js'
 
 connectDB()
 
@@ -17,6 +18,7 @@ app.use(express.json())
 app.use('/api/auth', authRoutes)
 app.use('/api/checklist', checklistRoutes)
 app.use('/api/llm', llmRoutes)
+app.use('/api/otp', otpRoutes)
 
 app.get('/', (req, res) => {
   res.send('Sahara backend is running!')
